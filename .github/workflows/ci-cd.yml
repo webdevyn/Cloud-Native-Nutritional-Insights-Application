@@ -35,5 +35,5 @@ jobs:
 
       # Step 5: Success message
       - name: Done
-        run: echo "✅ CI workflow completed successfully!"
+        run: echo "CI workflow completed successfully!"
 
