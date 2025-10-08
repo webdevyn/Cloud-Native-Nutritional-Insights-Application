@@ -31,7 +31,9 @@ jobs:
       - name: Run tests
         run: |
           echo "Running tests..."
-          python -m unittest discover || echo "No tests found, skipping."
+          python -m unittest discover -s tests -p "test_*.py" || echo "No tests found, skipping."
+      
+      
 
       # Step 5: Success message
       - name: Done
