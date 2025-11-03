@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutritional Insights</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <header class="bg-blue-600 p-4 text-white">
+        <h1 class="text-3xl font-semibold">Nutritional Insights</h1>
+    </header>
+
+    <main class="container mx-auto p-6">
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Explore Nutritional Insights</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-4 shadow-lg rounded-lg">
+                    <h3 class="font-semibold">Bar Chart</h3>
+                    <p class="text-sm text-gray-600">Average macronutrient content by diet type.</p>
+                    <canvas id="barChart" class="w-full h-48"></canvas>
+                </div>
+
+                <div class="bg-white p-4 shadow-lg rounded-lg">
+                    <h3 class="font-semibold">Scatter Plot</h3>
+                    <p class="text-sm text-gray-600">Nutrient relationships (e.g., protein vs carbs).</p>
+                    <canvas id="scatterPlot" class="w-full h-48"></canvas>
+                </div>
+
+                <div class="bg-white p-4 shadow-lg rounded-lg">
+                    <h3 class="font-semibold">Heatmap</h3>
+                    <p class="text-sm text-gray-600">Nutrient correlations.</p>
+                    <div id="heatmap" class="w-full h-48"></div>
+                </div>
+
+                <div class="bg-white p-4 shadow-lg rounded-lg">
+                    <h3 class="font-semibold">Pie Chart</h3>
+                    <p class="text-sm text-gray-600">Recipe distribution by diet type.</p>
+                    <canvas id="pieChart" class="w-full h-48"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Filters and Data Interaction</h2>
+            <div class="flex flex-wrap gap-4">
+                <input type="text" placeholder="Search by Diet Type" class="p-2 border rounded w-full sm:w-auto">
+                <select class="p-2 border rounded w-full sm:w-auto">
+                    <option value="all">All Diet Types</option>
+                    <option value="vegan">Vegan</option>
+                    <option value="keto">Keto</option>
+                    <!-- Add more options -->
+                </select>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">API Data Interaction</h2>
+            <div class="flex flex-wrap gap-4 mb-4">
+                <button onclick="getNutritionalData()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Get Nutritional Insights</button>
+                <button onclick="getRecipes()" class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">Get Recipes</button>
+                <button onclick="getDietTypes()" class="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700">Get Diet Types</button>
+            </div>
+            
+            <!-- Data Display Area -->
+            <div id="dataDisplay" class="bg-white p-6 rounded-lg shadow-lg">
+                <h3 class="text-xl font-semibold mb-3">Data Results:</h3>
+                <div id="results" class="text-gray-700">
+                    <p class="text-gray-400 italic">Click a button above to fetch data from the API</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Pagination</h2>
+            <div class="flex justify-center gap-2 mt-4">
+                <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">Previous</button>
+                <button class="px-3 py-1 bg-blue-600 text-white rounded">1</button>
+                <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">2</button>
+                <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">Next</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-blue-600 p-4 text-white text-center mt-10">
+        <p>&copy; 2025 Nutritional Insights. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // API Base URL
+        const API_URL = 'http://localhost:8000';
+
+        // Function to display results as table
+        function displayTable(data, title) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (Array.isArray(data) && data.length > 0) {
+                // If it's an array of objects, create a table
+                if (typeof data[0] === 'object') {
+                    const headers = Object.keys(data[0]);
+                    let tableHTML = `
+                        <h4 class="font-bold text-lg mb-3">${title}</h4>
+                        <div class="overflow-auto">
+                            <table class="min-w-full bg-white border border-gray-300">
+                                <thead class="bg-blue-600 text-white">
+                                    <tr>
+                                        ${headers.map(header => `<th class="px-4 py-2 border">${header}</th>`).join('')}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${data.map(row => `
+                                        <tr class="hover:bg-gray-100">
+                                            ${headers.map(header => `<td class="px-4 py-2 border">${row[header]}</td>`).join('')}
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    resultsDiv.innerHTML = tableHTML;
+                } else {
+                    // If it's a simple array (like list of strings)
+                    let listHTML = `
+                        <h4 class="font-bold text-lg mb-3">${title}</h4>
+                        <div class="bg-gray-50 p-4 rounded">
+                            <ul class="list-disc list-inside space-y-1">
+                                ${data.map(item => `<li class="text-gray-700">${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    resultsDiv.innerHTML = listHTML;
+                }
+            } else {
+                resultsDiv.innerHTML = `<p class="text-gray-500">No data available</p>`;
+            }
+        }
+
+        // Function to show loading state
+        function showLoading() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p class="text-blue-600">Loading...</p>';
+        }
+
+        // Function to show error
+        function showError(error) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<p class="text-red-600">Error: ${error}</p>`;
+        }
+
+        // Get Nutritional Data (averages by diet type)
+        async function getNutritionalData() {
+            showLoading();
+            try {
+                const response = await fetch(`${API_URL}/api/data`);
+                const data = await response.json();
+                displayTable(data, 'Average Macronutrients by Diet Type');
+            } catch (error) {
+                showError('Failed to fetch nutritional data. Make sure the backend is running!');
+            }
+        }
+
+        // Get Recipes
+        async function getRecipes() {
+            showLoading();
+            try {
+                const response = await fetch(`${API_URL}/api/recipes`);
+                const data = await response.json();
+                displayTable(data, 'Recipes (First 50)');
+            } catch (error) {
+                showError('Failed to fetch recipes. Make sure the backend is running!');
+            }
+        }
+
+        // Get Diet Types
+        async function getDietTypes() {
+            showLoading();
+            try {
+                const response = await fetch(`${API_URL}/api/diet-types`);
+                const data = await response.json();
+                displayTable(data, 'Available Diet Types');
+            } catch (error) {
+                showError('Failed to fetch diet types. Make sure the backend is running!');
+            }
+        }
+    </script>
+
+</body>
+</html>
