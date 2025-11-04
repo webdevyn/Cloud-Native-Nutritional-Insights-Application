@@ -42,6 +42,8 @@ INFO:     Uvicorn running on http://0.0.0.0:8000
 
 ### Step 3: Use the Application
 
+**Charts load automatically when you open the page!**
+
 Click the buttons to fetch data:
 - **Get Nutritional Insights** - Shows average protein/carbs/fat by diet type
 - **Get Recipes** - Shows first 50 recipes from the dataset
@@ -61,6 +63,7 @@ Click the buttons to fetch data:
 - **HTML5**
 - **JavaScript (ES6+)** - Fetch API for data retrieval
 - **Tailwind CSS** - Styling
+- **Chart.js** - Data visualizations (bar charts, scatter plots)
 
 ---
 
@@ -72,6 +75,8 @@ Click the buttons to fetch data:
 | `GET /api/data` | Average macronutrients by diet type |
 | `GET /api/recipes` | List of recipes (first 50) |
 | `GET /api/diet-types` | List of all diet types |
+| `GET /api/top-protein` | Top 5 protein-rich recipes per diet type |
+| `GET /api/recipe-counts` | Recipe count by diet type (for pie chart) |
 
 **Interactive API Docs:** http://localhost:8000/docs
 

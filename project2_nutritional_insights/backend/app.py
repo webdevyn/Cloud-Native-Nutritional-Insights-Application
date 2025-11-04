@@ -37,6 +37,20 @@ def get_diet_types():
     return df['Diet_type'].unique().tolist()
 
 
+@app.get("/api/top-protein")
+def get_top_protein():
+    # Get top 5 protein-rich recipes for each diet type (for scatter plot)
+    top_protein = df.sort_values('Protein(g)', ascending=False).groupby('Diet_type').head(5)
+    return top_protein[['Diet_type', 'Recipe_name', 'Cuisine_type', 'Protein(g)', 'Carbs(g)', 'Fat(g)']].to_dict(orient='records')
+
+
+@app.get("/api/recipe-counts")
+def get_recipe_counts():
+    # Count recipes per diet type for pie chart
+    counts = df['Diet_type'].value_counts().to_dict()
+    return counts
+
+
 # Run the server
 if __name__ == "__main__":
     import uvicorn
