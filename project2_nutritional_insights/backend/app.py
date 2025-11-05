@@ -25,10 +25,16 @@ def get_data():
 
 
 @app.get("/api/recipes")
-def get_recipes():
-    # Get first 50 recipes
-    recipes = df.head(50)[['Diet_type', 'Recipe_name', 'Cuisine_type', 'Protein(g)', 'Carbs(g)', 'Fat(g)']]
-    return recipes.to_dict(orient='records')
+def get_recipes(limit: int = 50, offset: int = 0):
+    # Get recipes but use pagination
+    total = len(df)
+    recipes = df.iloc[offset:offset+limit][['Diet_type', 'Recipe_name', 'Cuisine_type', 'Protein(g)', 'Carbs(g)', 'Fat(g)']]
+    return {
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "recipes": recipes.to_dict(orient='records')
+    }
 
 
 @app.get("/api/diet-types")
