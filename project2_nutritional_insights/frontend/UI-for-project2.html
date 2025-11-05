@@ -1,452 +1,599 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nutritional Insights</title>
     <!-- Tailwind CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-</head>
-<body class="bg-gray-100">
-
+  </head>
+  <body class="bg-gray-100">
     <header class="bg-blue-600 p-4 text-white">
-        <h1 class="text-3xl font-semibold">Nutritional Insights</h1>
+      <h1 class="text-3xl font-semibold">Nutritional Insights</h1>
     </header>
 
     <main class="container mx-auto p-6">
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Explore Nutritional Insights</h2>
-            
-            <!-- Row 1: Three Bar Charts (Protein, Carbs, Fat) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <div class="bg-white p-4 shadow-lg rounded-lg">
-                    <h3 class="font-semibold">Average Protein by Diet Type</h3>
-                    <div style="height: 250px;">
-                        <canvas id="proteinChart"></canvas>
-                    </div>
-                </div>
-                <div class="bg-white p-4 shadow-lg rounded-lg">
-                    <h3 class="font-semibold">Average Carbs by Diet Type</h3>
-                    <div style="height: 250px;">
-                        <canvas id="carbsChart"></canvas>
-                    </div>
-                </div>
-                <div class="bg-white p-4 shadow-lg rounded-lg">
-                    <h3 class="font-semibold">Average Fat by Diet Type</h3>
-                    <div style="height: 250px;">
-                        <canvas id="fatChart"></canvas>
-                    </div>
-                </div>
-            </div>
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">
+          Explore Nutritional Insights
+        </h2>
 
-            <!-- Row 2: Scatter Plot and Pie Chart -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-4 shadow-lg rounded-lg md:col-span-2">
-                    <h3 class="font-semibold">Scatter Plot</h3>
-                    <p class="text-sm text-gray-600">Nutrient relationships (e.g., protein vs carbs).</p>
-                    <div style="height: 350px;">
-                        <canvas id="scatterPlot"></canvas>
-                    </div>
-                </div>
+        <!-- Row 1: Three Bar Charts (Protein, Carbs, Fat) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div class="bg-white p-4 shadow-lg rounded-lg">
+            <h3 class="font-semibold">Average Protein by Diet Type</h3>
+            <div style="height: 250px">
+              <canvas id="proteinChart"></canvas>
+            </div>
+          </div>
+          <div class="bg-white p-4 shadow-lg rounded-lg">
+            <h3 class="font-semibold">Average Carbs by Diet Type</h3>
+            <div style="height: 250px">
+              <canvas id="carbsChart"></canvas>
+            </div>
+          </div>
+          <div class="bg-white p-4 shadow-lg rounded-lg">
+            <h3 class="font-semibold">Average Fat by Diet Type</h3>
+            <div style="height: 250px">
+              <canvas id="fatChart"></canvas>
+            </div>
+          </div>
+        </div>
 
-                <div class="bg-white p-4 shadow-lg rounded-lg">
-                    <h3 class="font-semibold">Pie Chart</h3>
-                    <p class="text-sm text-gray-600">Recipe distribution by diet type.</p>
-                    <div style="height: 350px;">
-                        <canvas id="pieChart"></canvas>
-                    </div>
-                </div>
+        <!-- Row 2: Scatter Plot and Pie Chart -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-white p-4 shadow-lg rounded-lg md:col-span-2">
+            <h3 class="font-semibold">Scatter Plot</h3>
+            <p class="text-sm text-gray-600">
+              Nutrient relationships (e.g., protein vs carbs).
+            </p>
+            <div style="height: 350px">
+              <canvas id="scatterPlot"></canvas>
             </div>
-            
-            <!-- Heatmap gets its own row -->
-            <div class="grid grid-cols-1 gap-6 mt-6">
-                <div class="bg-white p-4 shadow-lg rounded-lg">
-                    <h3 class="font-semibold">Heatmap</h3>
-                    <p class="text-sm text-gray-600">Nutrient correlations.</p>
-                    <div id="heatmap" class="w-full overflow-auto text-xs" style="max-height: 300px;"></div>
-                </div>
-            </div>
-        </section>
+          </div>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Filters and Data Interaction</h2>
-            <div class="flex flex-wrap gap-4">
-                <input type="text" placeholder="Search by Diet Type" class="p-2 border rounded w-full sm:w-auto">
-                <select class="p-2 border rounded w-full sm:w-auto">
-                    <option value="all">All Diet Types</option>
-                    <option value="vegan">Vegan</option>
-                    <option value="keto">Keto</option>
-                    <!-- Add more options -->
-                </select>
+          <div class="bg-white p-4 shadow-lg rounded-lg">
+            <h3 class="font-semibold">Pie Chart</h3>
+            <p class="text-sm text-gray-600">
+              Recipe distribution by diet type.
+            </p>
+            <div style="height: 350px">
+              <canvas id="pieChart"></canvas>
             </div>
-        </section>
+          </div>
+        </div>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">API Data Interaction</h2>
-            <div class="flex flex-wrap gap-4 mb-4">
-                <button onclick="getNutritionalData()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Get Nutritional Insights</button>
-                <button onclick="getRecipes()" class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">Get Recipes</button>
-                <button onclick="getDietTypes()" class="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700">Get Diet Types</button>
-            </div>
-            
-            <!-- Data Display Area -->
-            <div id="dataDisplay" class="bg-white p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-semibold mb-3">Data Results:</h3>
-                <div id="results" class="text-gray-700">
-                    <p class="text-gray-400 italic">Click a button above to fetch data from the API</p>
-                </div>
-            </div>
-        </section>
+        <!-- Heatmap gets its own row -->
+        <div class="grid grid-cols-1 gap-6 mt-6">
+          <div class="bg-white p-4 shadow-lg rounded-lg">
+            <h3 class="font-semibold">Heatmap</h3>
+            <p class="text-sm text-gray-600">Nutrient correlations.</p>
+            <div
+              id="heatmap"
+              class="w-full overflow-auto text-xs"
+              style="max-height: 300px"
+            ></div>
+          </div>
+        </div>
+      </section>
 
-        <section>
-            <h2 class="text-2xl font-semibold mb-4">Pagination</h2>
-            <div class="flex justify-center gap-2 mt-4">
-                <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">Previous</button>
-                <button class="px-3 py-1 bg-blue-600 text-white rounded">1</button>
-                <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">2</button>
-                <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">Next</button>
-            </div>
-        </section>
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">
+          Filters and Data Interaction
+        </h2>
+        <div class="flex flex-wrap gap-4">
+          <input
+            type="text"
+            id="dietSearch"
+            placeholder="Search by Diet Type"
+            class="p-2 border rounded w-full sm:w-auto"
+          />
+          <select id="dietFilter" class="p-2 border rounded w-full sm:w-auto">
+            <option value="all">All Diet Types</option>
+            <option value="vegan">Vegan</option>
+            <option value="keto">Keto</option>
+            <option value="paleo">Paleo</option>
+            <option value="mediterranean">Mediterranean</option>
+            <option value="dash">Dash</option>
+            <!-- Add more options -->
+          </select>
+        </div>
+      </section>
+
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">API Data Interaction</h2>
+        <div class="flex flex-wrap gap-4 mb-4">
+          <button
+            onclick="getNutritionalData()"
+            class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+          >
+            Get Nutritional Insights
+          </button>
+          <button
+            onclick="getRecipes()"
+            class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700"
+          >
+            Get Recipes
+          </button>
+          <button
+            onclick="getDietTypes()"
+            class="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700"
+          >
+            Get Diet Types
+          </button>
+        </div>
+
+        <!-- Data Display Area -->
+        <div id="dataDisplay" class="bg-white p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold mb-3">Data Results:</h3>
+          <div id="results" class="text-gray-700">
+            <p class="text-gray-400 italic">
+              Click a button above to fetch data from the API
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-semibold mb-4">Pagination</h2>
+        <div class="flex justify-center gap-2 mt-4">
+          <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">
+            Previous
+          </button>
+          <button class="px-3 py-1 bg-blue-600 text-white rounded">1</button>
+          <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">
+            2
+          </button>
+          <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">
+            Next
+          </button>
+        </div>
+      </section>
     </main>
 
     <footer class="bg-blue-600 p-4 text-white text-center mt-10">
-        <p>&copy; 2025 Nutritional Insights. All Rights Reserved.</p>
+      <p>&copy; 2025 Nutritional Insights. All Rights Reserved.</p>
     </footer>
 
     <script>
-        // API Base URL
-        const API_URL = 'http://localhost:8000';
+      // API Base URL
+      const API_URL = "http://localhost:8000";
 
-        // Function to display results as table
-        function displayTable(data, title) {
-            const resultsDiv = document.getElementById('results');
-            
-            if (Array.isArray(data) && data.length > 0) {
-                // If it's an array of objects, create a table
-                if (typeof data[0] === 'object') {
-                    const headers = Object.keys(data[0]);
-                    let tableHTML = `
+      let allData = []; //will store nutritional data
+      let allRecipes = []; //will store recipe data, both of these used for simple filtering
+
+      // Function to display results as table
+      function displayTable(data, title) {
+        const resultsDiv = document.getElementById("results");
+
+        if (Array.isArray(data) && data.length > 0) {
+          // If it's an array of objects, create a table
+          if (typeof data[0] === "object") {
+            const headers = Object.keys(data[0]);
+            let tableHTML = `
                         <h4 class="font-bold text-lg mb-3">${title}</h4>
                         <div class="overflow-auto">
                             <table class="min-w-full bg-white border border-gray-300">
                                 <thead class="bg-blue-600 text-white">
                                     <tr>
-                                        ${headers.map(header => `<th class="px-4 py-2 border">${header}</th>`).join('')}
+                                        ${headers
+                                          .map(
+                                            (header) =>
+                                              `<th class="px-4 py-2 border">${header}</th>`
+                                          )
+                                          .join("")}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${data.map(row => `
+                                    ${data
+                                      .map(
+                                        (row) => `
                                         <tr class="hover:bg-gray-100">
-                                            ${headers.map(header => `<td class="px-4 py-2 border">${row[header]}</td>`).join('')}
+                                            ${headers
+                                              .map(
+                                                (header) =>
+                                                  `<td class="px-4 py-2 border">${row[header]}</td>`
+                                              )
+                                              .join("")}
                                         </tr>
-                                    `).join('')}
+                                    `
+                                      )
+                                      .join("")}
                                 </tbody>
                             </table>
                         </div>
                     `;
-                    resultsDiv.innerHTML = tableHTML;
-                } else {
-                    // If it's a simple array (like list of strings)
-                    let listHTML = `
+            resultsDiv.innerHTML = tableHTML;
+          } else {
+            // If it's a simple array (like list of strings)
+            let listHTML = `
                         <h4 class="font-bold text-lg mb-3">${title}</h4>
                         <div class="bg-gray-50 p-4 rounded">
                             <ul class="list-disc list-inside space-y-1">
-                                ${data.map(item => `<li class="text-gray-700">${item}</li>`).join('')}
+                                ${data
+                                  .map(
+                                    (item) =>
+                                      `<li class="text-gray-700">${item}</li>`
+                                  )
+                                  .join("")}
                             </ul>
                         </div>
                     `;
-                    resultsDiv.innerHTML = listHTML;
-                }
-            } else {
-                resultsDiv.innerHTML = `<p class="text-gray-500">No data available</p>`;
-            }
+            resultsDiv.innerHTML = listHTML;
+          }
+        } else {
+          resultsDiv.innerHTML = `<p class="text-gray-500">No data available</p>`;
         }
+      }
 
-        // Function to show loading state
-        function showLoading() {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '<p class="text-blue-600">Loading...</p>';
+      // Function to show loading state
+      function showLoading() {
+        const resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = '<p class="text-blue-600">Loading...</p>';
+      }
+
+      // Function to show error
+      function showError(error) {
+        const resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = `<p class="text-red-600">Error: ${error}</p>`;
+      }
+
+      // Get Nutritional Data (averages by diet type)
+      async function getNutritionalData() {
+        showLoading();
+        try {
+          const response = await fetch(`${API_URL}/api/data`);
+          allData = await response.json();
+          displayTable(allData, "Average Macronutrients by Diet Type");
+        } catch (error) {
+          showError(
+            "Failed to fetch nutritional data. Make sure the backend is running!"
+          );
         }
+      }
 
-        // Function to show error
-        function showError(error) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = `<p class="text-red-600">Error: ${error}</p>`;
-        }
+      //function to filter data (happens in frontend)
+      function filterDataByDiet(dietType) {
+        const filteredData =
+          dietType === "all"
+            ? allData
+            : allData.filter(
+                (item) =>
+                  item.Diet_type.toLowerCase() === dietType.toLowerCase()
+              );
 
-        // Get Nutritional Data (averages by diet type)
-        async function getNutritionalData() {
-            showLoading();
-            try {
-                const response = await fetch(`${API_URL}/api/data`);
-                const data = await response.json();
-                displayTable(data, 'Average Macronutrients by Diet Type');
-            } catch (error) {
-                showError('Failed to fetch nutritional data. Make sure the backend is running!');
-            }
-        }
+        displayTable(
+          filteredData,
+          `Filtered by: ${dietType === "all" ? "All Diet Types" : dietType}`
+        );
+      }
+      document
+        .getElementById("dietSearch")
+        .addEventListener("input", function () {
+          const query = this.value.trim().toLowerCase();
 
-        // Get Recipes
-        async function getRecipes() {
-            showLoading();
-            try {
-                const response = await fetch(`${API_URL}/api/recipes`);
-                const data = await response.json();
-                displayTable(data, 'Recipes (First 50)');
-            } catch (error) {
-                showError('Failed to fetch recipes. Make sure the backend is running!');
-            }
-        }
-
-        // Get Diet Types
-        async function getDietTypes() {
-            showLoading();
-            try {
-                const response = await fetch(`${API_URL}/api/diet-types`);
-                const data = await response.json();
-                displayTable(data, 'Available Diet Types');
-            } catch (error) {
-                showError('Failed to fetch diet types. Make sure the backend is running!');
-            }
-        }
-
-        // ========== CHART FUNCTIONS ==========
-        
-        // Load charts when page loads
-        window.addEventListener('load', async function() {
-            await loadCharts();
+          // filter nutritional data
+          const filteredData = allData.filter((item) =>
+            item.Diet_type.toLowerCase().includes(query)
+          );
+          displayTable(
+            filteredData,
+            query ? `Filtered by: ${this.value}` : "All Diet Types"
+          );
+        });
+      document
+        .getElementById("dietFilter")
+        .addEventListener("change", async function () {
+          const selectedDiet = this.value; // e.g., "vegan" or "paleo"
+          await filterDataByDiet(selectedDiet);
         });
 
-        async function loadCharts() {
-            try {
-                // Fetch data from API
-                const response = await fetch(`${API_URL}/api/data`);
-                const data = await response.json();
-                
-                // Create three bar charts (Protein, Carbs, Fat)
-                createProteinChart(data);
-                createCarbsChart(data);
-                createFatChart(data);
-                
-                // Create scatter plot
-                await createScatterPlot();
-                
-                // Create heatmap
-                createHeatmap(data);
-                
-                // Create pie chart (fetches its own data)
-                await createPieChart();
-                
-            } catch (error) {
-                console.error('Error loading charts:', error);
-            }
+      //filter recipes from allRecipes list
+      function filterRecipesByDiet(dietType) {
+        const filteredData =
+          dietType === "all"
+            ? allRecipes
+            : allRecipes.filter(
+                (item) =>
+                  item.Diet_type.toLowerCase() === dietType.toLowerCase()
+              );
+
+        displayTable(
+          filteredData,
+          dietType === "all" ? "All Recipes" : `Filtered by: ${dietType}`
+        );
+      }
+
+      // Get Recipes
+      async function getRecipes() {
+        showLoading();
+        try {
+          const response = await fetch(`${API_URL}/api/recipes`);
+          allRecipes = await response.json();
+          displayTable(allRecipes, "Recipes (First 50)");
+        } catch (error) {
+          showError(
+            "Failed to fetch recipes. Make sure the backend is running!"
+          );
         }
+      }
 
-        // Bar Chart: Average Protein by Diet Type
-        function createProteinChart(data) {
-            const ctx = document.getElementById('proteinChart');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: data.map(item => item.Diet_type),
-                    datasets: [{
-                        label: 'Protein (g)',
-                        data: data.map(item => item['Protein(g)']),
-                        backgroundColor: 'rgba(59, 130, 246, 0.7)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { 
-                        y: { 
-                            beginAtZero: true,
-                            title: { display: true, text: 'Average Protein (g)' }
-                        } 
-                    }
-                }
-            });
+      // Get Diet Types
+      async function getDietTypes() {
+        showLoading();
+        try {
+          const response = await fetch(`${API_URL}/api/diet-types`);
+          const data = await response.json();
+          displayTable(data, "Available Diet Types");
+        } catch (error) {
+          showError(
+            "Failed to fetch diet types. Make sure the backend is running!"
+          );
         }
+      }
 
-        // Bar Chart: Average Carbs by Diet Type
-        function createCarbsChart(data) {
-            const ctx = document.getElementById('carbsChart');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: data.map(item => item.Diet_type),
-                    datasets: [{
-                        label: 'Carbs (g)',
-                        data: data.map(item => item['Carbs(g)']),
-                        backgroundColor: 'rgba(16, 185, 129, 0.7)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { 
-                        y: { 
-                            beginAtZero: true,
-                            title: { display: true, text: 'Average Carbs (g)' }
-                        } 
-                    }
-                }
-            });
+      // ========== CHART FUNCTIONS ==========
+
+      // Load charts when page loads
+      window.addEventListener("load", async function () {
+        await loadCharts();
+      });
+
+      async function loadCharts() {
+        try {
+          // Fetch data from API
+          const response = await fetch(`${API_URL}/api/data`);
+          const data = await response.json();
+
+          // Create three bar charts (Protein, Carbs, Fat)
+          createProteinChart(data);
+          createCarbsChart(data);
+          createFatChart(data);
+
+          // Create scatter plot
+          await createScatterPlot();
+
+          // Create heatmap
+          createHeatmap(data);
+
+          // Create pie chart (fetches its own data)
+          await createPieChart();
+        } catch (error) {
+          console.error("Error loading charts:", error);
         }
+      }
 
-        // Bar Chart: Average Fat by Diet Type
-        function createFatChart(data) {
-            const ctx = document.getElementById('fatChart');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: data.map(item => item.Diet_type),
-                    datasets: [{
-                        label: 'Fat (g)',
-                        data: data.map(item => item['Fat(g)']),
-                        backgroundColor: 'rgba(251, 146, 60, 0.7)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { 
-                        y: { 
-                            beginAtZero: true,
-                            title: { display: true, text: 'Average Fat (g)' }
-                        } 
-                    }
-                }
-            });
-        }
+      // Bar Chart: Average Protein by Diet Type
+      function createProteinChart(data) {
+        const ctx = document.getElementById("proteinChart");
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: data.map((item) => item.Diet_type),
+            datasets: [
+              {
+                label: "Protein (g)",
+                data: data.map((item) => item["Protein(g)"]),
+                backgroundColor: "rgba(59, 130, 246, 0.7)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "Average Protein (g)" },
+              },
+            },
+          },
+        });
+      }
 
-        // Scatter Plot: Protein vs Carbs for top recipes
-        async function createScatterPlot() {
-            const response = await fetch(`${API_URL}/api/top-protein`);
-            const data = await response.json();
+      // Bar Chart: Average Carbs by Diet Type
+      function createCarbsChart(data) {
+        const ctx = document.getElementById("carbsChart");
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: data.map((item) => item.Diet_type),
+            datasets: [
+              {
+                label: "Carbs (g)",
+                data: data.map((item) => item["Carbs(g)"]),
+                backgroundColor: "rgba(16, 185, 129, 0.7)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "Average Carbs (g)" },
+              },
+            },
+          },
+        });
+      }
 
-            // Group by diet type and assign different colors
-            const dietTypes = [...new Set(data.map(item => item.Diet_type))];
-            const colors = [
-                'rgba(59, 130, 246, 0.8)',   // Blue
-                'rgba(16, 185, 129, 0.8)',   // Green
-                'rgba(251, 146, 60, 0.8)',   // Orange
-                'rgba(239, 68, 68, 0.8)',    // Red
-                'rgba(139, 92, 246, 0.8)',   // Purple
-                'rgba(236, 72, 153, 0.8)'    // Pink
-            ];
+      // Bar Chart: Average Fat by Diet Type
+      function createFatChart(data) {
+        const ctx = document.getElementById("fatChart");
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: data.map((item) => item.Diet_type),
+            datasets: [
+              {
+                label: "Fat (g)",
+                data: data.map((item) => item["Fat(g)"]),
+                backgroundColor: "rgba(251, 146, 60, 0.7)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "Average Fat (g)" },
+              },
+            },
+          },
+        });
+      }
 
-            const datasets = dietTypes.map((diet, index) => {
-                const dietData = data.filter(item => item.Diet_type === diet);
-                return {
-                    label: diet,
-                    data: dietData.map(item => ({
-                        x: item['Carbs(g)'],
-                        y: item['Protein(g)']
-                    })),
-                    backgroundColor: colors[index % colors.length],
-                    pointRadius: 4,
-                    pointHoverRadius: 6
-                };
-            });
+      // Scatter Plot: Protein vs Carbs for top recipes
+      async function createScatterPlot() {
+        const response = await fetch(`${API_URL}/api/top-protein`);
+        const data = await response.json();
 
-            const ctx = document.getElementById('scatterPlot');
-            new Chart(ctx, {
-                type: 'scatter',
-                data: { datasets: datasets },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { 
-                            display: true,
-                            position: 'bottom',
-                            labels: { boxWidth: 10, font: { size: 9 } }
-                        }
-                    },
-                    scales: {
-                        x: { 
-                            title: { display: true, text: 'Carbs (g)' },
-                            beginAtZero: true
-                        },
-                        y: { 
-                            title: { display: true, text: 'Protein (g)' },
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
+        // Group by diet type and assign different colors
+        const dietTypes = [...new Set(data.map((item) => item.Diet_type))];
+        const colors = [
+          "rgba(59, 130, 246, 0.8)", // Blue
+          "rgba(16, 185, 129, 0.8)", // Green
+          "rgba(251, 146, 60, 0.8)", // Orange
+          "rgba(239, 68, 68, 0.8)", // Red
+          "rgba(139, 92, 246, 0.8)", // Purple
+          "rgba(236, 72, 153, 0.8)", // Pink
+        ];
 
-        // Heatmap: Macronutrient distribution by diet type
-        function createHeatmap(data) {
-            const container = document.getElementById('heatmap');
-            
-            // Find max values for color scaling
-            const maxProtein = Math.max(...data.map(item => item['Protein(g)']));
-            const maxCarbs = Math.max(...data.map(item => item['Carbs(g)']));
-            const maxFat = Math.max(...data.map(item => item['Fat(g)']));
-            
-            // Create table HTML
-            let html = '<table class="w-full border-collapse">';
-            html += '<tr><th class="border p-1 bg-gray-200">Diet Type</th><th class="border p-1 bg-red-200">Protein</th><th class="border p-1 bg-blue-200">Carbs</th><th class="border p-1 bg-orange-200">Fat</th></tr>';
-            
-            data.forEach(item => {
-                const proteinIntensity = (item['Protein(g)'] / maxProtein * 0.7).toFixed(2);
-                const carbsIntensity = (item['Carbs(g)'] / maxCarbs * 0.7).toFixed(2);
-                const fatIntensity = (item['Fat(g)'] / maxFat * 0.7).toFixed(2);
-                
-                html += `<tr>
+        const datasets = dietTypes.map((diet, index) => {
+          const dietData = data.filter((item) => item.Diet_type === diet);
+          return {
+            label: diet,
+            data: dietData.map((item) => ({
+              x: item["Carbs(g)"],
+              y: item["Protein(g)"],
+            })),
+            backgroundColor: colors[index % colors.length],
+            pointRadius: 4,
+            pointHoverRadius: 6,
+          };
+        });
+
+        const ctx = document.getElementById("scatterPlot");
+        new Chart(ctx, {
+          type: "scatter",
+          data: { datasets: datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: true,
+                position: "bottom",
+                labels: { boxWidth: 10, font: { size: 9 } },
+              },
+            },
+            scales: {
+              x: {
+                title: { display: true, text: "Carbs (g)" },
+                beginAtZero: true,
+              },
+              y: {
+                title: { display: true, text: "Protein (g)" },
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      }
+
+      // Heatmap: Macronutrient distribution by diet type
+      function createHeatmap(data) {
+        const container = document.getElementById("heatmap");
+
+        // Find max values for color scaling
+        const maxProtein = Math.max(...data.map((item) => item["Protein(g)"]));
+        const maxCarbs = Math.max(...data.map((item) => item["Carbs(g)"]));
+        const maxFat = Math.max(...data.map((item) => item["Fat(g)"]));
+
+        // Create table HTML
+        let html = '<table class="w-full border-collapse">';
+        html +=
+          '<tr><th class="border p-1 bg-gray-200">Diet Type</th><th class="border p-1 bg-red-200">Protein</th><th class="border p-1 bg-blue-200">Carbs</th><th class="border p-1 bg-orange-200">Fat</th></tr>';
+
+        data.forEach((item) => {
+          const proteinIntensity = (
+            (item["Protein(g)"] / maxProtein) *
+            0.7
+          ).toFixed(2);
+          const carbsIntensity = ((item["Carbs(g)"] / maxCarbs) * 0.7).toFixed(
+            2
+          );
+          const fatIntensity = ((item["Fat(g)"] / maxFat) * 0.7).toFixed(2);
+
+          html += `<tr>
                     <td class="border p-1 font-semibold">${item.Diet_type}</td>
-                    <td class="border p-1 text-center" style="background-color: rgba(239, 68, 68, ${proteinIntensity})">${item['Protein(g)'].toFixed(1)}</td>
-                    <td class="border p-1 text-center" style="background-color: rgba(59, 130, 246, ${carbsIntensity})">${item['Carbs(g)'].toFixed(1)}</td>
-                    <td class="border p-1 text-center" style="background-color: rgba(251, 146, 60, ${fatIntensity})">${item['Fat(g)'].toFixed(1)}</td>
+                    <td class="border p-1 text-center" style="background-color: rgba(239, 68, 68, ${proteinIntensity})">${item[
+            "Protein(g)"
+          ].toFixed(1)}</td>
+                    <td class="border p-1 text-center" style="background-color: rgba(59, 130, 246, ${carbsIntensity})">${item[
+            "Carbs(g)"
+          ].toFixed(1)}</td>
+                    <td class="border p-1 text-center" style="background-color: rgba(251, 146, 60, ${fatIntensity})">${item[
+            "Fat(g)"
+          ].toFixed(1)}</td>
                 </tr>`;
-            });
-            
-            html += '</table>';
-            container.innerHTML = html;
-        }
+        });
 
-        // Pie Chart: Recipe count by diet type
-        async function createPieChart() {
-            const response = await fetch(`${API_URL}/api/recipe-counts`);
-            const counts = await response.json();
-            
-            const labels = Object.keys(counts);
-            const data = Object.values(counts);
-            
-            const ctx = document.getElementById('pieChart');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: [
-                            '#3B82F6', '#10B981', '#F59E0B', 
-                            '#EF4444', '#8B5CF6', '#EC4899'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: { font: { size: 10 } }
-                        }
-                    }
-                }
-            });
-        }
+        html += "</table>";
+        container.innerHTML = html;
+      }
+
+      // Pie Chart: Recipe count by diet type
+      async function createPieChart() {
+        const response = await fetch(`${API_URL}/api/recipe-counts`);
+        const counts = await response.json();
+
+        const labels = Object.keys(counts);
+        const data = Object.values(counts);
+
+        const ctx = document.getElementById("pieChart");
+        new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                data: data,
+                backgroundColor: [
+                  "#3B82F6",
+                  "#10B981",
+                  "#F59E0B",
+                  "#EF4444",
+                  "#8B5CF6",
+                  "#EC4899",
+                ],
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: { font: { size: 10 } },
+              },
+            },
+          },
+        });
+      }
     </script>
-
-</body>
+  </body>
 </html>
