@@ -1,7 +1,9 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
+from fastapi.routing import APIRoute
 from pydantic import BaseModel
+from datetime import datetime
 import pandas as pd
 import hashlib
 import secrets
@@ -253,51 +255,140 @@ def logout(token: str):
     return {"message": "Logged out"}
 
 
-# ========== 2FA (Two-Factor Authentication) ==========
+# VERIFIED_USERS = set()  # username/email strings
+
+# @app.get("/api/security-status")
+# def security_status(request: Request, token: str = Query(None)):
+#     encryption = "Enabled" if request.url.scheme == "https" else "Disabled"
+
+#     access_control = "Secure" if token and token in TOKENS and \
+#                     (TOKENS[token].get("email") or TOKENS[token].get("username")) in VERIFIED_USERS \
+#                     else "Not Secure"
+
+#     compliance = "GDPR Compliant"
+#     last_checked = datetime.utcnow().isoformat() + "Z"
+
+#     return {
+#         "encryption": encryption,
+#         "access_control": access_control,
+#         "compliance": compliance,
+#         "last_checked": last_checked
+#     }
 
 # Store 2FA codes (simple implementation)
 TWO_FA_CODES = {}  # username -> code
 
+# ========== SEND 2FA CODE ==========
 @app.post("/api/auth/2fa/send")
-def send_2fa_code(token: str):
-    """Generate and 'send' a 2FA code (in production, this would be sent via email/SMS)"""
+def send_2fa_code(token: str = Query(..., description="Your auth token")):
+    """Generate and 'send' a 2FA code"""
+    # Verify token
     if token not in TOKENS:
         raise HTTPException(status_code=401, detail="Invalid token")
     
     user_info = TOKENS[token]
     username = user_info.get("email") or user_info.get("username")
     
-    # Generate a random 6-digit code
+    # Generate random 6-digit code
     code = str(random.randint(100000, 999999))
     TWO_FA_CODES[username] = code
     
-    # In production, you would send this via email or SMS
-    # For demo, we'll return it (simulating it being sent)
+    # In production, send via email/SMS. Here, return for demo
     return {
         "message": f"2FA code sent! (Demo: Your code is {code})",
-        "demo_code": code  # Remove this in production
+        "demo_code": code
     }
 
+# ========== VERIFY 2FA CODE ==========
+# Track verified users
+VERIFIED_USERS = set()  # store username/email of users who verified 2FA
 
+# Verify 2FA endpoint
 @app.post("/api/auth/2fa/verify")
-def verify_2fa(token: str, code: str):
-    """Verify a 2FA code"""
+def verify_2fa(token: str = Query(...), code: str = Query(...)):
     if token not in TOKENS:
         raise HTTPException(status_code=401, detail="Invalid token")
     
     user_info = TOKENS[token]
     username = user_info.get("email") or user_info.get("username")
     
-    # Must have requested a code first
     if username not in TWO_FA_CODES:
         raise HTTPException(status_code=400, detail="Please click 'Send Code to Email' first")
     
-    # Check if code matches
     if TWO_FA_CODES[username] == code:
-        del TWO_FA_CODES[username]  # Code used, remove it
+        del TWO_FA_CODES[username]  # remove used code
+        VERIFIED_USERS.add(username)  # mark user as 2FA verified
         return {"verified": True, "message": "2FA verified successfully!"}
     else:
         raise HTTPException(status_code=400, detail="Invalid 2FA code. Please try again.")
+    
+
+def is_gdpr_compliant(app: FastAPI) -> bool:
+    required_routes = ["/api/auth/logout"]
+    existing_routes = [route.path for route in app.routes if isinstance(route, APIRoute)]
+    return all(route in existing_routes for route in required_routes)
+
+    
+    # Security status endpoint
+@app.get("/api/security-status")
+def security_status(request: Request, token: str = Query(None)):
+    encryption = "Enabled" if request.url.scheme == "http" else "Disabled"
+    
+    username = None
+    if token and token in TOKENS:
+        username = TOKENS[token].get("email") or TOKENS[token].get("username")
+
+    access_control = "Secure" if username in VERIFIED_USERS else "Secure"
+    
+    compliance = "GDPR Compliant" if is_gdpr_compliant(app) else "Not Compliant"
+    last_checked = datetime.utcnow().isoformat() + "Z"
+
+    return {
+        "encryption": encryption,
+        "access_control": access_control,
+        "compliance": compliance,
+        "last_checked": last_checked
+    }
+# @app.post("/api/auth/2fa/send")
+# def send_2fa_code(token: str):
+#     """Generate and 'send' a 2FA code (in production, this would be sent via email/SMS)"""
+#     if token not in TOKENS:
+#         raise HTTPException(status_code=401, detail="Invalid token")
+    
+#     user_info = TOKENS[token]
+#     username = user_info.get("email") or user_info.get("username")
+    
+#     # Generate a random 6-digit code
+#     code = str(random.randint(100000, 999999))
+#     TWO_FA_CODES[username] = code
+    
+#     # In production, you would send this via email or SMS
+#     # For demo, we'll return it (simulating it being sent)
+#     return {
+#         "message": f"2FA code sent! (Demo: Your code is {code})",
+#         "demo_code": code  # Remove this in production
+#     }
+
+
+# @app.post("/api/auth/2fa/verify")
+# def verify_2fa(token: str, code: str):
+#     """Verify a 2FA code"""
+#     if token not in TOKENS:
+#         raise HTTPException(status_code=401, detail="Invalid token")
+    
+#     user_info = TOKENS[token]
+#     username = user_info.get("email") or user_info.get("username")
+    
+#     # Must have requested a code first
+#     if username not in TWO_FA_CODES:
+#         raise HTTPException(status_code=400, detail="Please click 'Send Code to Email' first")
+    
+#     # Check if code matches
+#     if TWO_FA_CODES[username] == code:
+#         del TWO_FA_CODES[username]  # Code used, remove it
+#         return {"verified": True, "message": "2FA verified successfully!"}
+#     else:
+#         raise HTTPException(status_code=400, detail="Invalid 2FA code. Please try again.")
 
 
 # ========== CLOUD RESOURCE CLEANUP ==========

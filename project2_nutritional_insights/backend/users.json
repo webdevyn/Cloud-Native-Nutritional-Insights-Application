@@ -7,5 +7,9 @@
     "email": "lailaangelicabayang.escoto@edu.sait.ca",
     "name": "Laila",
     "provider": "github"
+  },
+  "devyntestemail@gmail.com": {
+    "name": "Devyn",
+    "provider": "google"
   }
 }
