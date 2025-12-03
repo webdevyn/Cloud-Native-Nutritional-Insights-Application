@@ -139,6 +139,15 @@
         </div>
       </section>
 
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-700">
+          Security & Compliance
+        </h2>
+        <div class="bg-white p-6 rounded-lg shadow-lg" id="securityStatus">
+          <p>Loading security status...</p>
+        </div>
+      </section>
+
       <!-- OAuth & 2FA Integration Section -->
       <section class="mb-8">
         <h2 class="text-2xl font-semibold mb-4 text-gray-700">
@@ -709,6 +718,39 @@
           },
         });
       }
+
+      async function loadSecurityStatus() {
+        const container = document.getElementById("securityStatus");
+        container.innerHTML = "<p>Loading security status...</p>";
+
+        try {
+          const response = await fetch(`${API_URL}/api/security-status`);
+          const data = await response.json();
+
+          container.innerHTML = `
+      <p>
+        <strong>Encryption:</strong> 
+        <span class="text-green-400">${data.encryption}</span>
+      </p>
+      <p>
+        <strong>Access Control:</strong> 
+        <span class="text-green-400"> ${data.access_control}</span>
+      </p>
+      <p><strong>Compliance:</strong> <span class ="text-green-400">${
+        data.compliance
+      }</span></p>
+      <p class="text-sm text-gray-400 mt-2">Last Checked: ${new Date(
+        data.last_checked
+      ).toLocaleString()}</p>
+    `;
+        } catch (error) {
+          container.innerHTML =
+            "<p class='text-red-600'>Failed to load security status</p>";
+        }
+      }
+
+      // Call it on page load
+      window.addEventListener("load", loadSecurityStatus);
 
       // ========== SECURITY & AUTH FUNCTIONS ==========
 
