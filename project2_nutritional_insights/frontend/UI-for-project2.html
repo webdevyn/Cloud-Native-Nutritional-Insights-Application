@@ -139,54 +139,73 @@
         </div>
       </section>
 
-
       <!-- OAuth & 2FA Integration Section -->
       <section class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-700">OAuth & 2FA Integration</h2>
+        <h2 class="text-2xl font-semibold mb-4 text-gray-700">
+          OAuth & 2FA Integration
+        </h2>
         <div class="bg-white p-6 rounded-lg shadow-lg">
-          
           <!-- Login View (shown when not logged in) -->
           <div id="loginView">
             <h3 class="font-bold text-lg mb-3">Secure Login</h3>
             <div class="flex flex-wrap gap-3 mb-6">
-              <button onclick="loginWithGoogle()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+              <button
+                onclick="loginWithGoogle()"
+                class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+              >
                 Login with Google
               </button>
-              <button onclick="loginWithGitHub()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+              <button
+                onclick="loginWithGitHub()"
+                class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+              >
                 Login with GitHub
               </button>
             </div>
           </div>
 
           <!-- Logged In View (shown when logged in) -->
-          <div id="loggedInView" style="display: none;">
+          <div id="loggedInView" style="display: none">
             <div class="flex items-center justify-between mb-4">
               <div>
-                <h3 class="font-bold text-lg text-green-600">✓ Logged in as <span id="userDisplay"></span></h3>
-                <p class="text-sm text-gray-500">via <span id="providerDisplay"></span></p>
+                <h3 class="font-bold text-lg text-green-600">
+                  ✓ Logged in as <span id="userDisplay"></span>
+                </h3>
+                <p class="text-sm text-gray-500">
+                  via <span id="providerDisplay"></span>
+                </p>
               </div>
-              <button onclick="logout()" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">
+              <button
+                onclick="logout()"
+                class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+              >
                 Logout
               </button>
             </div>
           </div>
-          
+
           <div class="mt-4">
             <label class="block text-gray-600 mb-2">Enter 2FA Code</label>
             <div class="flex gap-2 mb-2">
-              <button onclick="send2FACode()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+              <button
+                onclick="send2FACode()"
+                class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+              >
                 Send Code to Email
               </button>
             </div>
             <div class="flex gap-2">
-              <input 
-                type="text" 
-                id="twoFactorCode" 
-                placeholder="Enter your 2FA code" 
+              <input
+                type="text"
+                id="twoFactorCode"
+                placeholder="Enter your 2FA code"
                 maxlength="6"
                 class="flex-1 p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button onclick="verify2FA()" class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+              <button
+                onclick="verify2FA()"
+                class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700"
+              >
                 Verify
               </button>
             </div>
@@ -196,10 +215,18 @@
 
       <!-- Cloud Resource Cleanup Section -->
       <section class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-700">Cloud Resource Cleanup</h2>
+        <h2 class="text-2xl font-semibold mb-4 text-gray-700">
+          Cloud Resource Cleanup
+        </h2>
         <div class="bg-white p-6 rounded-lg shadow-lg">
-          <p class="text-gray-600 mb-4">Ensure that cloud resources are efficiently managed and cleaned up post-deployment.</p>
-          <button onclick="cleanUpResources()" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">
+          <p class="text-gray-600 mb-4">
+            Ensure that cloud resources are efficiently managed and cleaned up
+            post-deployment.
+          </p>
+          <button
+            onclick="cleanUpResources()"
+            class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+          >
             Clean Up Resources
           </button>
         </div>
@@ -208,14 +235,20 @@
       <section>
         <h2 class="text-2xl font-semibold mb-4">Pagination</h2>
         <div class="flex justify-center gap-2 mt-4">
-          <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">
+          <button
+            id="prevBtn"
+            class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
+          >
             Previous
           </button>
           <button class="px-3 py-1 bg-blue-600 text-white rounded">1</button>
           <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">
             2
           </button>
-          <button class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">
+          <button
+            id="nextBtn"
+            class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
+          >
             Next
           </button>
         </div>
@@ -233,6 +266,10 @@
       let allData = []; //will store nutritional data
       let allRecipes = []; //will store recipe data, both of these used for simple filtering
 
+      //pagination variable and constant
+      let currentOffset = 0;
+      const limit = 50;
+
       // Function to display results as table
       function displayTable(data, title) {
         const resultsDiv = document.getElementById("results");
@@ -242,54 +279,54 @@
           if (typeof data[0] === "object") {
             const headers = Object.keys(data[0]);
             let tableHTML = `
-                        <h4 class="font-bold text-lg mb-3">${title}</h4>
-                        <div class="overflow-auto">
-                            <table class="min-w-full bg-white border border-gray-300">
-                                <thead class="bg-blue-600 text-white">
-                                    <tr>
-                                        ${headers
-                                          .map(
-                                            (header) =>
-                                              `<th class="px-4 py-2 border">${header}</th>`
-                                          )
-                                          .join("")}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${data
-                                      .map(
-                                        (row) => `
-                                        <tr class="hover:bg-gray-100">
-                                            ${headers
-                                              .map(
-                                                (header) =>
-                                                  `<td class="px-4 py-2 border">${row[header]}</td>`
-                                              )
-                                              .join("")}
-                                        </tr>
-                                    `
-                                      )
-                                      .join("")}
-                                </tbody>
-                            </table>
-                        </div>
-                    `;
+                              <h4 class="font-bold text-lg mb-3">${title}</h4>
+                              <div class="overflow-auto">
+                                  <table class="min-w-full bg-white border border-gray-300">
+                                      <thead class="bg-blue-600 text-white">
+                                          <tr>
+                                              ${headers
+                                                .map(
+                                                  (header) =>
+                                                    `<th class="px-4 py-2 border">${header}</th>`
+                                                )
+                                                .join("")}
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          ${data
+                                            .map(
+                                              (row) => `
+                                              <tr class="hover:bg-gray-100">
+                                                  ${headers
+                                                    .map(
+                                                      (header) =>
+                                                        `<td class="px-4 py-2 border">${row[header]}</td>`
+                                                    )
+                                                    .join("")}
+                                              </tr>
+                                          `
+                                            )
+                                            .join("")}
+                                      </tbody>
+                                  </table>
+                              </div>
+                          `;
             resultsDiv.innerHTML = tableHTML;
           } else {
             // If it's a simple array (like list of strings)
             let listHTML = `
-                        <h4 class="font-bold text-lg mb-3">${title}</h4>
-                        <div class="bg-gray-50 p-4 rounded">
-                            <ul class="list-disc list-inside space-y-1">
-                                ${data
-                                  .map(
-                                    (item) =>
-                                      `<li class="text-gray-700">${item}</li>`
-                                  )
-                                  .join("")}
-                            </ul>
-                        </div>
-                    `;
+                              <h4 class="font-bold text-lg mb-3">${title}</h4>
+                              <div class="bg-gray-50 p-4 rounded">
+                                  <ul class="list-disc list-inside space-y-1">
+                                      ${data
+                                        .map(
+                                          (item) =>
+                                            `<li class="text-gray-700">${item}</li>`
+                                        )
+                                        .join("")}
+                                  </ul>
+                              </div>
+                          `;
             resultsDiv.innerHTML = listHTML;
           }
         } else {
@@ -354,9 +391,12 @@
         });
       document
         .getElementById("dietFilter")
-        .addEventListener("change", async function () {
-          const selectedDiet = this.value; // e.g., "vegan" or "paleo"
-          await filterDataByDiet(selectedDiet);
+        .addEventListener("change", function () {
+          const selectedDiet = this.value;
+
+          // Filter both datasets (if they've been loaded)
+          if (allData.length > 0) filterDataByDiet(selectedDiet);
+          if (allRecipes.length > 0) filterRecipesByDiet(selectedDiet);
         });
 
       //filter recipes from allRecipes list
@@ -376,7 +416,7 @@
       }
 
       // Get Recipes
-      async function getRecipes() {
+      async function getRecipes(offset = currentOffset, limitCount = limit) {
         showLoading();
         try {
           const response = await fetch(`${API_URL}/api/recipes`);
@@ -388,6 +428,13 @@
           );
         }
       }
+      document.getElementById("nextBtn").addEventListener("click", function () {
+        getRecipes(currentOffset + limit);
+      });
+
+      document.getElementById("prevBtn").addEventListener("click", function () {
+        getRecipes(Math.max(0, currentOffset - limit));
+      });
 
       // Get Diet Types
       async function getDietTypes() {
@@ -604,17 +651,19 @@
           const fatIntensity = ((item["Fat(g)"] / maxFat) * 0.7).toFixed(2);
 
           html += `<tr>
-                    <td class="border p-1 font-semibold">${item.Diet_type}</td>
-                    <td class="border p-1 text-center" style="background-color: rgba(239, 68, 68, ${proteinIntensity})">${item[
+                          <td class="border p-1 font-semibold">${
+                            item.Diet_type
+                          }</td>
+                          <td class="border p-1 text-center" style="background-color: rgba(239, 68, 68, ${proteinIntensity})">${item[
             "Protein(g)"
           ].toFixed(1)}</td>
-                    <td class="border p-1 text-center" style="background-color: rgba(59, 130, 246, ${carbsIntensity})">${item[
+                          <td class="border p-1 text-center" style="background-color: rgba(59, 130, 246, ${carbsIntensity})">${item[
             "Carbs(g)"
           ].toFixed(1)}</td>
-                    <td class="border p-1 text-center" style="background-color: rgba(251, 146, 60, ${fatIntensity})">${item[
+                          <td class="border p-1 text-center" style="background-color: rgba(251, 146, 60, ${fatIntensity})">${item[
             "Fat(g)"
           ].toFixed(1)}</td>
-                </tr>`;
+                      </tr>`;
         });
 
         html += "</table>";
@@ -662,31 +711,39 @@
       }
 
       // ========== SECURITY & AUTH FUNCTIONS ==========
-      
+
       // Check for OAuth callback params in URL
       function checkOAuthCallback() {
         const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        const user = urlParams.get('user');
-        const provider = urlParams.get('provider');
-        const error = urlParams.get('error');
+        const token = urlParams.get("token");
+        const user = urlParams.get("user");
+        const provider = urlParams.get("provider");
+        const error = urlParams.get("error");
 
         if (error) {
           alert(`Login failed: ${error}`);
           // Clean URL
-          window.history.replaceState({}, document.title, window.location.pathname);
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+          );
           return;
         }
 
         if (token && user && provider) {
           // Store login info
-          localStorage.setItem('authToken', token);
-          localStorage.setItem('loggedInUser', user);
-          localStorage.setItem('loginProvider', provider);
-          
+          localStorage.setItem("authToken", token);
+          localStorage.setItem("loggedInUser", user);
+          localStorage.setItem("loginProvider", provider);
+
           // Clean URL (remove query params)
-          window.history.replaceState({}, document.title, window.location.pathname);
-          
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+          );
+
           alert(`✓ Successfully logged in with ${provider}!`);
         }
       }
@@ -695,18 +752,19 @@
       function checkLoginState() {
         // First check for OAuth callback
         checkOAuthCallback();
-        
-        const user = localStorage.getItem('loggedInUser');
-        const provider = localStorage.getItem('loginProvider');
-        
+
+        const user = localStorage.getItem("loggedInUser");
+        const provider = localStorage.getItem("loginProvider");
+
         if (user && provider) {
-          document.getElementById('loginView').style.display = 'none';
-          document.getElementById('loggedInView').style.display = 'block';
-          document.getElementById('userDisplay').textContent = user;
-          document.getElementById('providerDisplay').textContent = provider.charAt(0).toUpperCase() + provider.slice(1) + ' OAuth';
+          document.getElementById("loginView").style.display = "none";
+          document.getElementById("loggedInView").style.display = "block";
+          document.getElementById("userDisplay").textContent = user;
+          document.getElementById("providerDisplay").textContent =
+            provider.charAt(0).toUpperCase() + provider.slice(1) + " OAuth";
         } else {
-          document.getElementById('loginView').style.display = 'block';
-          document.getElementById('loggedInView').style.display = 'none';
+          document.getElementById("loginView").style.display = "block";
+          document.getElementById("loggedInView").style.display = "none";
         }
       }
 
@@ -722,42 +780,47 @@
 
       // Logout
       async function logout() {
-        const token = localStorage.getItem('authToken');
-        
+        const token = localStorage.getItem("authToken");
+
         // Call logout API
         if (token) {
           try {
-            await fetch(`${API_URL}/api/auth/logout?token=${token}`, { method: 'POST' });
+            await fetch(`${API_URL}/api/auth/logout?token=${token}`, {
+              method: "POST",
+            });
           } catch (e) {
-            console.error('Logout API error:', e);
+            console.error("Logout API error:", e);
           }
         }
-        
+
         // Clear local storage
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('loggedInUser');
-        localStorage.removeItem('loginProvider');
-        localStorage.removeItem('2faVerified');
-        
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("loggedInUser");
+        localStorage.removeItem("loginProvider");
+        localStorage.removeItem("2faVerified");
+
         alert("Logged out successfully");
         checkLoginState();
       }
 
       // Send 2FA Code to email
       async function send2FACode() {
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem("authToken");
         if (!token) {
           alert("Please login first to get a 2FA code");
           return;
         }
 
         try {
-          const response = await fetch(`${API_URL}/api/auth/2fa/send?token=${token}`, {
-            method: 'POST'
-          });
+          const response = await fetch(
+            `${API_URL}/api/auth/2fa/send?token=${token}`,
+            {
+              method: "POST",
+            }
+          );
 
           const data = await response.json();
-          
+
           if (response.ok) {
             alert(data.message);
           } else {
@@ -770,34 +833,37 @@
 
       // 2FA Verification - Simple code verification
       async function verify2FA() {
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem("authToken");
         if (!token) {
           alert("Please login first before verifying 2FA");
           return;
         }
-        
-        const code = document.getElementById('twoFactorCode').value;
+
+        const code = document.getElementById("twoFactorCode").value;
         if (!code) {
           alert("Please enter your 2FA code");
           return;
         }
-        
+
         if (code.length !== 6 || !/^\d+$/.test(code)) {
           alert("Please enter a valid 6-digit code");
           return;
         }
 
         try {
-          const response = await fetch(`${API_URL}/api/auth/2fa/verify?token=${token}&code=${code}`, {
-            method: 'POST'
-          });
+          const response = await fetch(
+            `${API_URL}/api/auth/2fa/verify?token=${token}&code=${code}`,
+            {
+              method: "POST",
+            }
+          );
 
           const data = await response.json();
-          
+
           if (response.ok) {
-            localStorage.setItem('2faVerified', 'true');
+            localStorage.setItem("2faVerified", "true");
             alert("✓ 2FA verified successfully!");
-            document.getElementById('twoFactorCode').value = '';
+            document.getElementById("twoFactorCode").value = "";
           } else {
             alert(`Verification failed: ${data.detail}`);
           }
@@ -808,37 +874,46 @@
 
       // Cloud Resource Cleanup
       async function cleanUpResources() {
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem("authToken");
         if (!token) {
           alert("Please login first to perform cleanup");
           return;
         }
-        
-        if (!confirm("Are you sure you want to clean up cloud resources?\n\nThis will remove:\n- Expired 2FA codes\n- Temporary files\n- Inactive sessions")) {
+
+        if (
+          !confirm(
+            "Are you sure you want to clean up cloud resources?\n\nThis will remove:\n- Expired 2FA codes\n- Temporary files\n- Inactive sessions"
+          )
+        ) {
           return;
         }
 
         try {
-          const response = await fetch(`${API_URL}/api/admin/cleanup?token=${token}`, {
-            method: 'POST'
-          });
+          const response = await fetch(
+            `${API_URL}/api/admin/cleanup?token=${token}`,
+            {
+              method: "POST",
+            }
+          );
 
           const data = await response.json();
-          
+
           if (response.ok) {
             let report = "🧹 Cloud Cleanup Report\n\n";
             report += `Initiated by: ${data.initiated_by}\n\n`;
             report += "Actions performed:\n";
-            
-            data.actions.forEach(action => {
-              report += `• ${action.type}: ${action.removed} removed ($${action.savings.toFixed(3)} saved)\n`;
+
+            data.actions.forEach((action) => {
+              report += `• ${action.type}: ${
+                action.removed
+              } removed ($${action.savings.toFixed(3)} saved)\n`;
               if (action.note) report += `  → ${action.note}\n`;
             });
-            
+
             report += `\n━━━━━━━━━━━━━━━━━━━━━━\n`;
             report += `Total items cleaned: ${data.total_cleaned}\n`;
             report += `Estimated savings: $${data.estimated_savings}\n`;
-            
+
             alert(report);
           } else {
             alert(`Cleanup failed: ${data.detail}`);
@@ -849,7 +924,7 @@
       }
 
       // Initialize on page load
-      document.addEventListener('DOMContentLoaded', checkLoginState);
+      document.addEventListener("DOMContentLoaded", checkLoginState);
     </script>
   </body>
 </html>
