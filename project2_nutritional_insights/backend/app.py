@@ -28,7 +28,7 @@ df = pd.read_csv('All_Diets.csv')
 # Google OAuth - Get from: https://console.cloud.google.com/apis/credentials
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "124767371156-tkba9q68ga6k78tm0imo1gv9fr8uv3ou.apps.googleusercontent.com")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "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")
-GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI", "http://localhost:8000/api/auth/google/callback")
+GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI", "http://cloudnativenutritionalinsights-hgh3hudjdab7d3ds.canadacentral-01.azurewebsites.net/api/auth/google/callback")
 
 # GitHub OAuth - Get from: https://github.com/settings/developers
 GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID", "Ov23liErtPjZCZ7rLD7S")
@@ -59,6 +59,11 @@ def create_token(user_info: dict) -> str:
     token = secrets.token_urlsafe(32)
     TOKENS[token] = user_info
     return token
+
+
+@app.get("/health")
+def health():
+    return {"status": "healthy"}
 
 
 # ========== GOOGLE OAUTH ==========
