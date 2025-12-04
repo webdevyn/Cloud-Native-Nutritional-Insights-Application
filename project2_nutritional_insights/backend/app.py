@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.routing import APIRoute
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from datetime import datetime
 import pandas as pd
@@ -14,6 +15,14 @@ import random
 
 # Create app
 app = FastAPI()
+
+# Serve frontend folder as static
+app.mount("/static", StaticFiles(directory="frontend"), name="frontend")
+
+# Serve main HTML
+@app.get("/")
+def serve_frontend():
+    return FileResponse("frontend/UI-for-project2.html")
 
 # Allow frontend to access this API
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -43,7 +52,7 @@ GITHUB_REDIRECT_URI = os.getenv("GITHUB_REDIRECT_URI", "http://cloudnativenutrit
 
 # Frontend URL (where to redirect after login)
 # Use http://localhost:5500/UI-for-project2.html when running frontend with: python -m http.server 5500
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://127.0.0.1:3000/project2_nutritional_insights/frontend/UI-for-project2.html")
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 
 
 # ========== USER & TOKEN STORAGE ==========
