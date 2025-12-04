@@ -25,19 +25,25 @@ df = pd.read_csv('All_Diets.csv')
 # ========== OAUTH CONFIGURATION ==========
 # You need to set these with your actual OAuth credentials
 
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
+
+
 # Google OAuth - Get from: https://console.cloud.google.com/apis/credentials
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "124767371156-tkba9q68ga6k78tm0imo1gv9fr8uv3ou.apps.googleusercontent.com")
-GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "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")
-GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI", "http://cloudnativenutritionalinsights-hgh3hudjdab7d3ds.canadacentral-01.azurewebsites.net/api/auth/google/callback")
+# GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "124767371156-tkba9q68ga6k78tm0imo1gv9fr8uv3ou.apps.googleusercontent.com")
+# GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "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")
+# GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI", "https://cloudnativenutritionalinsights-hgh3hudjdab7d3ds.canadacentral-01.azurewebsites.net/api/auth/google/callback")
+
 
 # GitHub OAuth - Get from: https://github.com/settings/developers
 GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID", "Ov23liErtPjZCZ7rLD7S")
 GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET", "bdb1b23f2e4637b34ee80a36e8d67e45db93ebe3")
-GITHUB_REDIRECT_URI = os.getenv("GITHUB_REDIRECT_URI", "http://localhost:8000/api/auth/github/callback")
+GITHUB_REDIRECT_URI = os.getenv("GITHUB_REDIRECT_URI", "http://cloudnativenutritionalinsights-hgh3hudjdab7d3ds.canadacentral-01.azurewebsites.net/api/auth/github/callback")
 
 # Frontend URL (where to redirect after login)
 # Use http://localhost:5500/UI-for-project2.html when running frontend with: python -m http.server 5500
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5500/UI-for-project2.html")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://127.0.0.1:3000/project2_nutritional_insights/frontend/UI-for-project2.html")
 
 
 # ========== USER & TOKEN STORAGE ==========
