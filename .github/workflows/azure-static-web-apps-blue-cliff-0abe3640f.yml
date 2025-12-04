@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - "frontend/**"
-      - ".github/workflows/frontend-static-webapp.yml"
+      - ".github/workflows/azure-static-web-apps-blue-cliff-0abe3640f.yml"
 
 jobs:
   build_and_deploy:
