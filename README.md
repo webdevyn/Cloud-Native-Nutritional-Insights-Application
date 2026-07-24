@@ -4,11 +4,11 @@ A full-stack cloud-native web application that analyzes and visualizes nutrition
 
 **[Live Application](https://cloudnativenutritionalinsights-hgh3hudjdab7d3ds.canadacentral-01.azurewebsites.net)**
 
-## 🎯 Project Overview
+## Project Overview
 
 This is a comprehensive nutritional insights platform that processes a dataset of 7,808+ recipes across multiple diet types and cuisines. The application provides real-time analysis, secure OAuth authentication, 2FA verification, and data visualization capabilities. It demonstrates modern cloud-native application development practices including microservices architecture, containerization, security, and cost optimization.
 
-## 📦 Tech Stack
+## Tech Stack
 
 ### Backend
 - **Python 3.9** - Core language
@@ -36,7 +36,7 @@ This is a comprehensive nutritional insights platform that processes a dataset o
 - **JWT Tokens** - Secure session management
 - **CORS** - Cross-origin request handling
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Cloud-Native-Nutritional-Insights-Application/
@@ -63,7 +63,7 @@ Cloud-Native-Nutritional-Insights-Application/
 └── README.md                             # This file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -133,7 +133,7 @@ Open your browser and navigate to: `http://localhost:8000/`
 
 The frontend will load automatically with all visualizations populated from the backend API.
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 ### Build Docker Image
 
@@ -161,7 +161,7 @@ The Dockerfile uses a multi-stage build process:
 
 This reduces the final image size significantly and improves security.
 
-## 🔐 Authentication & Security
+## Authentication & Security
 
 ### OAuth Integration
 
@@ -203,7 +203,7 @@ POST /api/auth/2fa/verify
 - Tokens invalidated on logout
 - Clean up mechanism removes inactive sessions
 
-## 📊 API Endpoints
+## API Endpoints
 
 ### Authentication Endpoints
 
@@ -243,7 +243,7 @@ FastAPI automatically generates interactive API documentation:
 - **Swagger UI**: `http://localhost:8000/docs`
 - **ReDoc**: `http://localhost:8000/redoc`
 
-## 📈 Data Analysis Features
+## Data Analysis Features
 
 ### Available Analyses
 
@@ -288,7 +288,7 @@ FastAPI automatically generates interactive API documentation:
 4. **Serve** - Results converted to JSON and sent via API
 5. **Visualize** - Frontend receives JSON and renders charts
 
-## 🧪 Testing
+## Testing
 
 ### Unit Tests
 
@@ -320,7 +320,7 @@ python -m pytest tests/test_data_analysis.py -v
 python -m pytest tests/test_process_diets.py -v
 ```
 
-## ☁️ Cloud Deployment
+## Cloud Deployment
 
 ### Azure App Service Deployment
 
@@ -364,7 +364,7 @@ az webapp config appsettings set \
 https://nutritional-insights-app.azurewebsites.net
 ```
 
-## 💰 Cost Optimization
+## Cost Optimization
 
 ### Cloud Resource Cleanup
 
@@ -390,22 +390,22 @@ POST /api/admin/cleanup?token={auth_token}
 }
 ```
 
-## 🔍 Features Implemented
+## Features Implemented
 
-✅ **Multi-provider OAuth Authentication** - Google and GitHub  
-✅ **Two-Factor Authentication** - Enhanced security with 2FA codes  
-✅ **RESTful API Design** - Consistent endpoints with proper HTTP methods  
-✅ **Data Visualization** - Multiple chart types (bar, scatter, pie)  
-✅ **CORS Support** - Frontend-backend communication across origins  
-✅ **Responsive Design** - Works on desktop and mobile browsers  
-✅ **Docker Containerization** - Multi-stage builds for production  
-✅ **Cloud Deployment** - Azure App Service integration  
-✅ **Unit Testing** - Comprehensive test coverage  
-✅ **Cost Optimization** - Resource cleanup and monitoring  
-✅ **Security Compliance** - GDPR compliance checks  
-✅ **Interactive API Docs** - Swagger UI and ReDoc  
+- **Multi-provider OAuth Authentication** - Google and GitHub
+- **Two-Factor Authentication** - Enhanced security with 2FA codes
+- **RESTful API Design** - Consistent endpoints with proper HTTP methods
+- **Data Visualization** - Multiple chart types (bar, scatter, pie)
+- **CORS Support** - Frontend-backend communication across origins
+- **Responsive Design** - Works on desktop and mobile browsers
+- **Docker Containerization** - Multi-stage builds for production
+- **Cloud Deployment** - Azure App Service integration
+- **Unit Testing** - Comprehensive test coverage
+- **Cost Optimization** - Resource cleanup and monitoring
+- **Security Compliance** - GDPR compliance checks
+- **Interactive API Docs** - Swagger UI and ReDoc
 
-## 🎓 Learning Outcomes
+## Learning Outcomes
 
 This project demonstrates:
 
@@ -418,7 +418,7 @@ This project demonstrates:
 - **Testing** - Unit tests, integration testing, test coverage
 - **Performance Optimization** - Multi-stage builds, resource cleanup
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Port Already in Use
 
@@ -465,7 +465,7 @@ python -m pytest tests/ -vv
 python -m pytest tests/test_data_analysis.py::TestDataAnalysis::test_compute_avg_macros -v
 ```
 
-## 📚 Additional Resources
+## Additional Resources
 
 - **FastAPI Documentation**: https://fastapi.tiangolo.com/
 - **Pandas Documentation**: https://pandas.pydata.org/docs/
@@ -473,7 +473,7 @@ python -m pytest tests/test_data_analysis.py::TestDataAnalysis::test_compute_avg
 - **OAuth 2.0 Flow**: https://tools.ietf.org/html/rfc6749
 - **Azure App Service**: https://docs.microsoft.com/en-us/azure/app-service/
 
-## 🔄 CI/CD Integration
+## CI/CD Integration
 
 The project is set up for continuous integration and deployment:
 
@@ -482,7 +482,7 @@ The project is set up for continuous integration and deployment:
 - Automated Docker image building and pushing
 - Deployment to Azure on main branch merge
 
-## 📝 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -506,7 +506,7 @@ Default port: **8000**
 
 To change: Edit `app.py` line 531 or use environment variable
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -514,17 +514,17 @@ To change: Edit `app.py` line 531 or use environment variable
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is open source and available under the MIT License.
 
-## 👤 Author
+## Author
 
 **Devyn Weir**
 - GitHub: [@webdevyn](https://github.com/webdevyn)
 - Portfolio: [webdevyn.github.io](https://webdevyn.github.io)
 
-## 📞 Support
+## Support
 
 For issues, questions, or suggestions, please open a GitHub Issue or contact via the portfolio website.
 
@@ -532,4 +532,4 @@ For issues, questions, or suggestions, please open a GitHub Issue or contact via
 
 **Last Updated**: July 16, 2026  
 **Version**: 2.0  
-**Status**: Production Ready ✅
+**Status**: Production Ready
